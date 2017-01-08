@@ -1,5 +1,7 @@
 {
     "name": "asyncphp/process",
+    "description": "Simple abstraction for starting and stopping processes",
+    "license": "MIT",
     "require": {
         "php": "^5.4|^7.0"
     },

@@ -14,10 +14,17 @@ class PosixHandler implements Handler
      *
      * @param string $id
      * @param string $command
+     * @param bool $background
      */
-    public function start($id, $command)
+    public function start($id, $command, $background = false)
     {
-        passthru("ASYNCPHP_PROCESS_ID={$id} {$command}");
+        $shhh = "";
+
+        if ($background) {
+            $shhh = " > /dev/null 2> /dev/null &";
+        }
+
+        passthru("ASYNCPHP_PROCESS_ID={$id} {$command} {$shhh}");
     }
 
     /**

@@ -36,7 +36,13 @@ class PosixHandler implements Handler
      */
     public function running($id)
     {
-        exec("ps -wwwE | grep \"[A]SYNCPHP_PROCESS_ID={$id}\"", $output);
+        $switch = "e";
+
+        if (stristr(PHP_OS, "DAR")) {
+            $switch = "E";
+        }
+
+        exec("ps {$switch} | grep \"[A]SYNCPHP_PROCESS_ID={$id}\"", $output);
 
         if (count($output)) {
             $line = trim($output[0]);

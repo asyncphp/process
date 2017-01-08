@@ -5,6 +5,11 @@ namespace AsyncPHP\Process;
 class PosixHandler implements Handler
 {
     /**
+     * @var int
+     */
+    private $pid = 0;
+
+    /**
      * @inheritdoc
      *
      * @param string $id
@@ -12,17 +17,30 @@ class PosixHandler implements Handler
      */
     public function start($id, $command)
     {
-        // TODO
+        passthru("ASYNCPHP_PROCESS_ID={$id} {$command}");
     }
 
     /**
      * @inheritdoc
      *
      * @param string $id
+     *
+     * @return bool
      */
     public function running($id)
     {
-        // TODO
+        exec("ps -wwwE | grep \"[A]SYNCPHP_PROCESS_ID={$id}\"", $output);
+
+        if (count($output)) {
+            $line = trim($output[0]);
+            $values = explode(" ", $line);
+
+            $this->pid = (int) $values[0];
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -32,6 +50,8 @@ class PosixHandler implements Handler
      */
     public function stop($id)
     {
-        // TODO
+        if ($this->running($id) && $this->pid) {
+            exec("kill -9 {$this->pid}");
+        }
     }
 }

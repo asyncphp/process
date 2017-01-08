@@ -5,13 +5,13 @@
 
 Simple abstraction for starting and stopping processes.
 
-## Install
+## Installation
 
 ```
 composer require asyncphp/process
 ```
 
-## Use
+## Usage
 
 ```php
 use AsyncPHP\Process\PosixHandler;
